@@ -26,8 +26,8 @@ void Playground::drawPlayground()
 			if (j == 0)
 			{
 				std::cout << "#";
-				std::cout << " ";
 			}
+			std::cout << " ";
 			if (j == getWidth() - 1)
 			{
 				std::cout << "#";
