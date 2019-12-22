@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../BusinessLogic/Playground.h"
+#include "../BusinessLogic/Playground.cpp"
 
 int main()
 {

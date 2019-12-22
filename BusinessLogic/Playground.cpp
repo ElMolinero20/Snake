@@ -17,6 +17,8 @@ void Playground::drawPlayground()
 		std::cout << "#";
 	}
 
+	std::cout << std::endl;
+
 	for (int i = 0; i < getHeight(); i++)
 	{
 		for (int j = 0; j < getWidth(); j++)
@@ -31,12 +33,14 @@ void Playground::drawPlayground()
 				std::cout << "#";
 			}
 		}
+		std::cout << std::endl;
 	}
 
 	for (int i = 0; i < getWidth(); i++)
 	{
 		std::cout << "#";
 	}
+	std::endl;
 }
 
 int Playground::getWidth()
