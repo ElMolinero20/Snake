@@ -3,6 +3,6 @@
 
 int main()
 {
-    Playground playground;
-    playground.drawPlayground();
+	Playground playground;
+	playground.drawPlayground();
 }

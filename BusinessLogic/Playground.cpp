@@ -40,7 +40,7 @@ void Playground::drawPlayground()
 	{
 		std::cout << "#";
 	}
-	std::endl;
+	std::cout << std::endl;
 }
 
 int Playground::getWidth()
