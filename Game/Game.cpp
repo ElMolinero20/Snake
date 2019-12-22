@@ -1,6 +1,8 @@
 #include <iostream>
+#include "../BusinessLogic/Playground.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    Playground playground;
+    playground.drawPlayground();
 }
