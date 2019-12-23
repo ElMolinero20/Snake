@@ -1,4 +1,5 @@
 #include "Highscore.h"
+#include <string>
 
 Highscore::Highscore()
 {
@@ -33,7 +34,7 @@ void Highscore::ReadData()
 
     if(highscore.is_open())
     {
-        while(getline(highscore, line))
+        while(std::getline(highscore, line))
         {
             Split(line, ' ', eintrag);
             names.push_back(eintrag[0]);
@@ -69,7 +70,7 @@ void Highscore::WriteHighscore(std::string name, int score)
 
             for(int j = i+1; j <= scoresSize; j++)
             {
-                if(j != scores.size)
+                if(j != scores.size())
                 {
                     scoreState2 = scores[j];
                     nameState2 = names[j];
