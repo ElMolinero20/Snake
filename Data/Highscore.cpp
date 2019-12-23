@@ -58,7 +58,7 @@ void Highscore::WriteHighscore(std::string name, int score)
 
     for(int i = 0; i < scores.size(); i++)
     {
-        if(scores[i] < score)
+        if(scores[i] <= score)
         {
             scoreState = scores[i];
             nameState = names[i];
