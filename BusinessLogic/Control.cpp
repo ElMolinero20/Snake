@@ -4,7 +4,8 @@ enum Direction {
 	UP,
 	DOWN,
 	RIGHT,
-	LEFT
+	LEFT,
+	STOP
 };
 
 class Control
@@ -14,6 +15,7 @@ public:
 	~Control();
 	void getKey();
 	Direction getDirection();
+	void setDirection(Direction dir);
 
 private:
 	Direction direction;
@@ -60,4 +62,9 @@ void Control::getKey()
 Direction Control::getDirection()
 {
 	return direction;
+}
+
+void Control::setDirection(Direction dir)
+{
+	direction = dir;
 }

@@ -3,8 +3,8 @@
     "",
     "\\BusinessLogic",
     "\\ConsoleAccess",
-    "\\Game"
+    "\\Data"
   ],
-  "SelectedNode": "\\Game\\Game.cpp",
+  "SelectedNode": "\\BusinessLogic\\Control.cpp",
   "PreviewInSolutionExplorer": false
 }

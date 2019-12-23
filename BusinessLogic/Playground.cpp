@@ -15,12 +15,14 @@ public:
 	void startGame();
 
 private:
+	bool gameOver;
 	int width;
 	int height;
 	int headX;
 	int headY;
 	int foodX;
 	int foodY;
+	int score;
 	Control control;
 };
 
@@ -118,5 +120,14 @@ void Playground::moveSnake()
 
 void Playground::startGame()
 {
-	drawPlayground();
+	gameOver = false;
+	control.setDirection(STOP);
+	headX = width / 2;
+	headY = height / 2;
+	getNewFood();
+	score = 0;
+	while (!gameOver)
+	{
+		drawPlayground();
+	}
 }

@@ -5,7 +5,7 @@
 
 int main()
 {
-	/*ConsoleAccessor* csAccessor = new ConsoleAccessor();
+	ConsoleAccessor* csAccessor = new ConsoleAccessor();
 	Playground* playground = new Playground();
 
 	switch (csAccessor->showMainMenu())
@@ -24,10 +24,5 @@ int main()
 		break;
 	}
 	delete csAccessor;
-	delete playground;*/
-
-	Highscore* highscore = new Highscore();
-
-	highscore->ReadData();
-	highscore->WriteHighscore("Müller", 12);
+	delete playground;
 }
