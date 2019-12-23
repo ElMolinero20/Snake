@@ -1,4 +1,12 @@
-#include "ConsoleAccessor.h"
+class ConsoleAccessor
+{
+public:
+	ConsoleAccessor();
+	~ConsoleAccessor();
+
+private:
+
+};
 
 ConsoleAccessor::ConsoleAccessor()
 {

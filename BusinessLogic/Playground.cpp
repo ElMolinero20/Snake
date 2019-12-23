@@ -1,4 +1,27 @@
-#include "Playground.h"
+#include <random>
+#include "Control.cpp"
+#include <iostream>
+
+class Playground
+{
+public:
+	Playground();
+	~Playground();
+	void drawPlayground();
+	int getWidth();
+	int getHeight();
+	void getNewFood();
+	void moveSnake();
+
+private:
+	int width;
+	int height;
+	int headX;
+	int headY;
+	int foodX;
+	int foodY;
+	Control control;
+};
 
 Playground::Playground()
 {
@@ -27,8 +50,23 @@ void Playground::drawPlayground()
 			{
 				std::cout << "#";
 			}
-			
-			std::cout << " ";
+			if (j == foodX && i == foodY)
+			{
+				std::cout << "N";
+			}
+			else
+			{
+				std::cout << " ";
+			}
+
+			if (j == headX && i == headY)
+			{
+				std::cout << "O";
+			}
+			else
+			{
+				std::cout << " ";
+			}
 
 			if (j == getWidth() - 1)
 			{
@@ -53,4 +91,34 @@ int Playground::getWidth()
 int Playground::getHeight()
 {
 	return height;
+}
+
+void Playground::getNewFood()
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> dis(1, width);
+	foodX = dis(gen);
+	foodY = dis(gen);
+}
+
+void Playground::moveSnake()
+{
+	switch (control.getDirection())
+	{
+	case UP:
+		headY--;
+		break;
+	case DOWN:
+		headY++;
+		break;
+	case RIGHT:
+		headX++;
+		break;
+	case LEFT:
+		headX--;
+		break;
+	default:
+		break;
+	}
 }
