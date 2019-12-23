@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\BusinessLogic",
+    "\\ConsoleAccess",
     "\\Game"
   ],
-  "SelectedNode": "\\BusinessLogic\\Playground.cpp",
+  "SelectedNode": "\\Game\\Game.cpp",
   "PreviewInSolutionExplorer": false
 }

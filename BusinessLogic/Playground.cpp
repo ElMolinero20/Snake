@@ -12,7 +12,7 @@ Playground::~Playground()
 
 void Playground::drawPlayground()
 {
-	for (int i = 0; i < getWidth(); i++)
+	for (int i = 0; i < getWidth() + 2; i++)
 	{
 		std::cout << "#";
 	}
@@ -27,7 +27,9 @@ void Playground::drawPlayground()
 			{
 				std::cout << "#";
 			}
+			
 			std::cout << " ";
+
 			if (j == getWidth() - 1)
 			{
 				std::cout << "#";
@@ -36,7 +38,7 @@ void Playground::drawPlayground()
 		std::cout << std::endl;
 	}
 
-	for (int i = 0; i < getWidth(); i++)
+	for (int i = 0; i < getWidth() + 2; i++)
 	{
 		std::cout << "#";
 	}
