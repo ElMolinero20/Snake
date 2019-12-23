@@ -12,6 +12,7 @@ public:
 	int getHeight();
 	void getNewFood();
 	void moveSnake();
+	void startGame();
 
 private:
 	int width;
@@ -35,6 +36,7 @@ Playground::~Playground()
 
 void Playground::drawPlayground()
 {
+	system("cls");
 	for (int i = 0; i < getWidth() + 2; i++)
 	{
 		std::cout << "#";
@@ -53,15 +55,6 @@ void Playground::drawPlayground()
 			if (j == foodX && i == foodY)
 			{
 				std::cout << "N";
-			}
-			else
-			{
-				std::cout << " ";
-			}
-
-			if (j == headX && i == headY)
-			{
-				std::cout << "O";
 			}
 			else
 			{
@@ -121,4 +114,9 @@ void Playground::moveSnake()
 	default:
 		break;
 	}
+}
+
+void Playground::startGame()
+{
+	drawPlayground();
 }
