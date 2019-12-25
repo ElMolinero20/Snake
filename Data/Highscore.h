@@ -45,6 +45,9 @@ void Highscore::ReadData()
 
     std::ifstream highscore("Highscore.txt");
 
+    names.clear();
+    scores.clear();
+
     if(highscore.is_open())
     {
         while(std::getline(highscore, line))
@@ -62,12 +65,13 @@ void Highscore::ReadData()
 
 void Highscore::WriteHighscore(std::string name, int score)
 {
-    std::ofstream highscore;
     int scoreState;
     int scoreState2;
     std::string nameState;
     std::string nameState2;
     int scoresSize;
+
+    std::ofstream highscore;
     highscore.open("Highscore.txt");
 	
 	if(scores.empty() || scores[scores.size()-1] > score)
