@@ -35,19 +35,19 @@ void Control::getKey()
 	{
 		switch (_getch())
 		{
-		case 'W':
+		case 'w':
 			direction = UP;
 			break;
-		case 'A':
+		case 'a':
 			direction = LEFT;
 			break;	
-		case 'S':
+		case 's':
 			direction = DOWN;
 			break;
-		case 'D':
+		case 'd':
 			direction = RIGHT;
 			break;
-		case 'X':
+		case 'x':
 			//TODO: Go back to main menu
 			break;
 		case 'ESC':

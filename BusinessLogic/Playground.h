@@ -54,7 +54,11 @@ void Playground::drawPlayground()
 			{
 				std::cout << "#";
 			}
-			if (j == foodX && i == foodY)
+			if (i == headY && j == headX)
+			{
+				std::cout << "O";
+			}
+			else if (j == foodX && i == foodY)
 			{
 				std::cout << "N";
 			}
@@ -116,6 +120,7 @@ void Playground::moveSnake()
 	default:
 		break;
 	}
+	control.setDirection(STOP);
 }
 
 void Playground::startGame()
@@ -129,5 +134,7 @@ void Playground::startGame()
 	while (!gameOver)
 	{
 		drawPlayground();
+		control.getKey();
+		moveSnake();
 	}
 }
