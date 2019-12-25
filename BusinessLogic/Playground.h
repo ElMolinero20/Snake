@@ -1,5 +1,6 @@
 #include <random>
 #include <iostream>
+#include <thread>
 #include "Control.h"
 
 class Playground
@@ -13,6 +14,7 @@ public:
 	void getNewFood();
 	void moveSnake();
 	void startGame();
+	bool checkForGameover();
 
 private:
 	bool gameOver;
@@ -120,7 +122,12 @@ void Playground::moveSnake()
 	default:
 		break;
 	}
-	control.setDirection(STOP);
+	if (headX == foodX && headY == foodY)
+	{
+		score++;
+		getNewFood();
+	}
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
 void Playground::startGame()
@@ -131,10 +138,26 @@ void Playground::startGame()
 	headY = height / 2;
 	getNewFood();
 	score = 0;
-	while (!gameOver)
+	while (!checkForGameover())
 	{
 		drawPlayground();
 		control.getKey();
 		moveSnake();
+		checkForGameover();
 	}
+	if (checkForGameover())
+	{
+		system("cls");
+		std::cout << "You lost the game" << std::endl;
+	}
+}
+
+bool Playground::checkForGameover()
+{
+	if (headX < 0 || headX > width || headY < 0 || headY > height)
+	{
+		return true;
+	}
+	// TODO: When snake bites itself -> gameover
+	return false;
 }
