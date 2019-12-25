@@ -1,6 +1,6 @@
 #include <random>
-#include "Control.cpp"
 #include <iostream>
+#include "Control.h"
 
 class Playground
 {

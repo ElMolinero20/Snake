@@ -1,7 +1,7 @@
 #include <iostream>
-#include "../ConsoleAccess/ConsoleAccessor.cpp"
-#include "../BusinessLogic/Playground.cpp"
-#include "../Data/Highscore.cpp"
+#include "../ConsoleAccess/ConsoleAccessor.h"
+#include "../BusinessLogic/Playground.h"
+#include "../Data/Highscore.h"
 
 int main()
 {
