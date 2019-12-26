@@ -1,6 +1,8 @@
 #include <random>
 #include <iostream>
 #include <thread>
+#include <chrono>
+#include <vector>
 #include "Control.h"
 
 class Playground
@@ -15,6 +17,9 @@ public:
 	void moveSnake();
 	void startGame();
 	bool checkForGameover();
+	int lengthTail;
+	std::vector<int> tailX;
+	std::vector<int> tailY;
 
 private:
 	bool gameOver;
@@ -45,7 +50,7 @@ void Playground::drawPlayground()
 	{
 		std::cout << "#";
 	}
-
+	std::cout << " Score " << score;
 	std::cout << std::endl;
 
 	for (int i = 0; i < getHeight(); i++)
@@ -66,7 +71,19 @@ void Playground::drawPlayground()
 			}
 			else
 			{
-				std::cout << " ";
+				bool printed = false;
+				for (int k = 0; k < lengthTail; k++)
+				{
+					if (tailX.at(k) == j && tailY.at(k) == i)
+					{
+						std::cout << "o";
+						printed = true;
+					}
+				}
+				if (!printed)
+				{
+					std::cout << " ";
+				}
 			}
 
 			if (j == getWidth() - 1)
@@ -98,13 +115,20 @@ void Playground::getNewFood()
 {
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> dis(1, width);
+	std::uniform_int_distribution<> dis(1, width - 1);
 	foodX = dis(gen);
 	foodY = dis(gen);
 }
 
 void Playground::moveSnake()
 {
+	tailX.push_back(headX);
+	tailY.push_back(headY);
+	int previousX = tailX.at(0);
+	int previousY = tailY.at(0);
+	int helperX;
+	int helperY;
+	// Move head of snake
 	switch (control.getDirection())
 	{
 	case UP:
@@ -126,6 +150,17 @@ void Playground::moveSnake()
 	{
 		score++;
 		getNewFood();
+		lengthTail++;
+	}
+	// Move tail of snake
+	for (int i = 0; i < lengthTail; i++)
+	{
+		helperX = tailX.at(i);
+		helperY = tailY.at(i);
+		tailX.at(i) = previousX;
+		tailY.at(i) = previousY;
+		previousX = helperX;
+		previousY = helperY;
 	}
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
@@ -148,13 +183,13 @@ void Playground::startGame()
 	if (checkForGameover())
 	{
 		system("cls");
-		std::cout << "You lost the game" << std::endl;
+		std::cout << "You lost the game" << std::endl << "Your Score: " << score;
 	}
 }
 
 bool Playground::checkForGameover()
 {
-	if (headX < 0 || headX > width || headY < 0 || headY > height)
+	if (headX < 0 || headX > width - 1 || headY < 0 || headY > height - 1)
 	{
 		return true;
 	}

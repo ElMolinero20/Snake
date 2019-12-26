@@ -3,8 +3,9 @@
     "",
     "\\BusinessLogic",
     "\\ConsoleAccess",
-    "\\Data"
+    "\\Data",
+    "\\Game"
   ],
-  "SelectedNode": "\\BusinessLogic\\Control.cpp",
+  "SelectedNode": "\\BusinessLogic\\Playground.h",
   "PreviewInSolutionExplorer": false
 }
