@@ -7,6 +7,7 @@ int main()
 {
 	ConsoleAccessor* csAccessor = new ConsoleAccessor();
 	Playground* playground = new Playground();
+	Highscore* highscore = new Highscore();
 
 	switch (csAccessor->showMainMenu())
 	{
@@ -14,7 +15,8 @@ int main()
 		playground->startGame();
 		break;
 	case 2:
-		//csAccessor->showHighscore();
+		highscore->ReadData();
+		csAccessor->showHighscore(highscore->names, highscore->scores);
 		break;
 	case 3:
 		system("exit");
@@ -25,4 +27,5 @@ int main()
 	}
 	delete csAccessor;
 	delete playground;
+	delete highscore;
 }

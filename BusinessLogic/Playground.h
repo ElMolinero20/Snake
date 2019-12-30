@@ -3,7 +3,9 @@
 #include <thread>
 #include <chrono>
 #include <vector>
+#include <unistd.h>
 #include "Control.h"
+#include "../Data/Highscore.h"
 
 class Playground
 {
@@ -31,6 +33,7 @@ private:
 	int foodY;
 	int score;
 	Control control;
+	std::string name;
 };
 
 Playground::Playground()
@@ -162,11 +165,14 @@ void Playground::moveSnake()
 		previousX = helperX;
 		previousY = helperY;
 	}
-	std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	//usleep(100);
 }
 
 void Playground::startGame()
 {
+	Highscore* highscore = new Highscore();
+
 	gameOver = false;
 	control.setDirection(STOP);
 	headX = width / 2;
@@ -184,6 +190,11 @@ void Playground::startGame()
 	{
 		system("cls");
 		std::cout << "You lost the game" << std::endl << "Your Score: " << score;
+		std::cout << "Please enter your name: ";
+		std::cin >> name;
+
+		highscore->ReadData();
+		highscore->WriteHighscore(name, score);
 	}
 }
 

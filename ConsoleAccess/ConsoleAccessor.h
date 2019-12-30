@@ -24,7 +24,7 @@ int ConsoleAccessor::showMainMenu()
 	int selection = 0;
 	std::cout << "Please select the corresponding number: " << std::endl;
 	std::cout << "1 --> Play" << std::endl;
-	std::cout << "2 --> Show Highscore" << std::endl;
+	std::cout << "2 --> Show Highscoretable" << std::endl;
 	std::cout << "3 --> Exit" << std::endl;
 	std::cin >> selection;
 	return selection;
