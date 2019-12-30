@@ -3,7 +3,6 @@
 #include <thread>
 #include <chrono>
 #include <vector>
-#include <unistd.h>
 #include "Control.h"
 #include "../Data/Highscore.h"
 
@@ -166,7 +165,6 @@ void Playground::moveSnake()
 		previousY = helperY;
 	}
 	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	//usleep(100);
 }
 
 void Playground::startGame()
