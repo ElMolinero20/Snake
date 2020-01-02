@@ -33,6 +33,7 @@ private:
 	int score;
 	Control control;
 	std::string name;
+	Highscore* highscore = new Highscore();
 };
 
 Playground::Playground()
@@ -43,6 +44,7 @@ Playground::Playground()
 
 Playground::~Playground()
 {
+	delete highscore;
 }
 
 void Playground::drawPlayground()
@@ -169,7 +171,6 @@ void Playground::moveSnake()
 
 void Playground::startGame()
 {
-	Highscore* highscore = new Highscore();
 	gameOver = false;
 	control.setDirection(STOP);
 	headX = width / 2;
@@ -183,16 +184,14 @@ void Playground::startGame()
 		moveSnake();
 		checkForGameover();
 	}
-	if (checkForGameover())
-	{
-		system("cls");
-		std::cout << "You lost the game" << std::endl << "Your Score: " << score;
-		std::cout << "Please enter your name: ";
-		std::cin >> name;
 
-		highscore->ReadData();
-		highscore->WriteHighscore(name, score);
-	}
+	system("cls");
+	std::cout << "You lost the game" << std::endl << "Your Score: " << score;
+	std::cout << "Please enter your name: ";
+	std::cin >> name;
+
+	highscore->ReadData();
+	highscore->WriteHighscore(name, score);
 }
 
 bool Playground::checkForGameover()
