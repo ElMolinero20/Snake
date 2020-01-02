@@ -1,3 +1,5 @@
+#pragma once
+
 #include <conio.h>
 
 enum Direction {

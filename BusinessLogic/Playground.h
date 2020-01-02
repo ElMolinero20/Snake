@@ -1,3 +1,5 @@
+#pragma once
+
 #include <random>
 #include <iostream>
 #include <thread>
@@ -33,7 +35,7 @@ private:
 	int score;
 	Control control;
 	std::string name;
-	//Highscore* highscore = new Highscore();
+	Highscore* highscore = new Highscore();
 };
 
 Playground::Playground()
@@ -44,7 +46,7 @@ Playground::Playground()
 
 Playground::~Playground()
 {
-	//delete highscore;
+	delete highscore;
 }
 
 void Playground::drawPlayground()
@@ -190,8 +192,8 @@ void Playground::startGame()
 	std::cout << "Please enter your name: ";
 	std::cin >> name;
 
-	//highscore->ReadData();
-	//highscore->WriteHighscore(name, score);
+	highscore->ReadData();
+	highscore->WriteHighscore(name, score);
 }
 
 bool Playground::checkForGameover()
