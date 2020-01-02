@@ -170,7 +170,6 @@ void Playground::moveSnake()
 void Playground::startGame()
 {
 	Highscore* highscore = new Highscore();
-
 	gameOver = false;
 	control.setDirection(STOP);
 	headX = width / 2;
