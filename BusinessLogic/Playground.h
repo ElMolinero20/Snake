@@ -20,7 +20,8 @@ public:
 	void moveSnake();
 	void startGame();
 	bool checkForGameover();
-	int lengthTail;
+	void moveTail();
+	void incrementSnake();
 	std::vector<int> tailX;
 	std::vector<int> tailY;
 
@@ -35,7 +36,7 @@ private:
 	int score;
 	Control control;
 	std::string name;
-	Highscore* highscore = new Highscore();
+	Highscore* highscore;
 };
 
 Playground::Playground()
@@ -46,7 +47,6 @@ Playground::Playground()
 
 Playground::~Playground()
 {
-	delete highscore;
 }
 
 void Playground::drawPlayground()
@@ -77,19 +77,7 @@ void Playground::drawPlayground()
 			}
 			else
 			{
-				bool printed = false;
-				for (int k = 0; k < lengthTail; k++)
-				{
-					if (tailX.at(k) == j && tailY.at(k) == i)
-					{
-						std::cout << "o";
-						printed = true;
-					}
-				}
-				if (!printed)
-				{
-					std::cout << " ";
-				}
+				std::cout << " ";
 			}
 
 			if (j == getWidth() - 1)
@@ -128,12 +116,6 @@ void Playground::getNewFood()
 
 void Playground::moveSnake()
 {
-	tailX.push_back(headX);
-	tailY.push_back(headY);
-	int previousX = tailX.at(0);
-	int previousY = tailY.at(0);
-	int helperX;
-	int helperY;
 	// Move head of snake
 	switch (control.getDirection())
 	{
@@ -156,19 +138,17 @@ void Playground::moveSnake()
 	{
 		score++;
 		getNewFood();
-		lengthTail++;
+		incrementSnake();
 	}
+
 	// Move tail of snake
-	for (int i = 0; i < lengthTail; i++)
+	if (!(tailX.empty() && tailY.empty()))
 	{
-		helperX = tailX.at(i);
-		helperY = tailY.at(i);
-		tailX.at(i) = previousX;
-		tailY.at(i) = previousY;
-		previousX = helperX;
-		previousY = helperY;
+		moveTail();
 	}
-	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+	// Reduce the speed of the game by delaying the thread
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
 void Playground::startGame()
@@ -204,4 +184,115 @@ bool Playground::checkForGameover()
 	}
 	// TODO: When snake bites itself -> gameover
 	return false;
+}
+
+void Playground::moveTail()
+{
+	for (int i = tailX.size() - 1; i >= 0; i--)
+	{
+		if (i == 0)
+		{
+			tailX.at(0) = headX;
+		}
+		else
+		{
+			tailX.at(i) = tailX.at(i - 1);
+		}
+	}
+
+	for (int i = tailY.size() - 1; i >= 0; i--)
+	{
+		if (i == 0)
+		{
+			tailY.at(0) = headY;
+		}
+		else
+		{
+			tailX.at(i) = tailX.at(i - 1);
+		}
+	}
+}
+
+void Playground::incrementSnake()
+{
+	if (tailX.empty() && tailY.empty())
+	{
+		switch (control.getDirection())
+		{
+		case UP:
+			tailX.push_back(headX);
+			tailY.push_back(headY + 1);
+			break;
+		case DOWN:
+			tailX.push_back(headX);
+			tailY.push_back(headY - 1);
+			break;
+		case LEFT:
+			tailX.push_back(headX + 1);
+			tailY.push_back(headY);
+			break;
+		case RIGHT:
+			tailX.push_back(headX - 1);
+			tailY.push_back(headY);
+			break;
+		default:
+			system("cls");
+			std::cout << "An error ocurred" << std::endl;
+			break;
+		}
+	}
+	else if (tailX.size() == 1)
+	{
+		// TODO: Case the vectors have one element
+	}
+	else
+	{
+		Direction tailDir;
+		if (tailX.at(tailX.size()) == tailX.at(tailX.size() - 1))
+		{
+			if (tailY.at(tailY.size()) > tailY.at(tailY.size() - 1))
+			{
+				tailDir = UP;
+			}
+			else if (tailY.at(tailY.size()) < tailY.at(tailY.size() - 1))
+			{
+				tailDir = DOWN;
+			}
+		}
+		else if (tailY.at(tailY.size()) == tailY.at(tailY.size() - 1))
+		{
+			if (tailX.at(tailX.size()) > tailX.at(tailX.size() - 1))
+			{
+				tailDir = LEFT;
+			}
+			else if (tailX.at(tailX.size()) < tailX.at(tailX.size() - 1))
+			{
+				tailDir = RIGHT;
+			}
+		}
+
+		switch (tailDir)
+		{
+		case UP:
+			tailX.push_back(tailX.at(tailX.size()));
+			tailY.push_back(tailY.at(tailY.size()) + 1);
+			break;
+		case DOWN:
+			tailX.push_back(tailX.at(tailX.size()));
+			tailY.push_back(tailY.at(tailY.size()) - 1);
+			break;
+		case RIGHT:
+			tailX.push_back(tailX.at(tailX.size()) - 1);
+			tailY.push_back(tailY.at(tailY.size()));
+			break;
+		case LEFT:
+			tailX.push_back(tailX.at(tailX.size()) + 1);
+			tailY.push_back(tailY.at(tailY.size()));
+			break;
+		default:
+			system("cls");
+			std::cout << "An error ocurred" << std::endl;
+			break;
+		}
+	}
 }
