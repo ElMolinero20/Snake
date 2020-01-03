@@ -34,6 +34,7 @@ private:
 	int foodX;
 	int foodY;
 	int score;
+	int lengthTail;
 	Control control;
 	std::string name;
 	Highscore* highscore;
@@ -116,6 +117,19 @@ void Playground::getNewFood()
 
 void Playground::moveSnake()
 {
+	int previousX = headX;
+	int previousY = headY;
+	int helperX;
+	int helperY;
+	for (int i = 1; i < lengthTail; i++)
+	{
+		helperX = tailX.at(i);
+		helperY = tailY.at(i);
+		tailX.at(i) = previousX;
+		tailY.at(i) = previousY;
+		previousX = helperX;
+		previousY = helperY;
+	}
 	// Move head of snake
 	switch (control.getDirection())
 	{
@@ -138,14 +152,15 @@ void Playground::moveSnake()
 	{
 		score++;
 		getNewFood();
-		incrementSnake();
+		lengthTail++;
+		// incrementSnake();
 	}
 
 	// Move tail of snake
-	if (!(tailX.empty() && tailY.empty()))
+	/*if (!(tailX.empty() && tailY.empty()))
 	{
 		moveTail();
-	}
+	}*/
 
 	// Reduce the speed of the game by delaying the thread
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -168,7 +183,7 @@ void Playground::startGame()
 	}
 
 	system("cls");
-	std::cout << "You lost the game" << std::endl << "Your Score: " << score;
+	std::cout << "You lost the game" << std::endl << "Your Score: " << score << std::endl;
 	std::cout << "Please enter your name: ";
 	std::cin >> name;
 
@@ -215,7 +230,7 @@ void Playground::moveTail()
 
 void Playground::incrementSnake()
 {
-	if (tailX.empty() && tailY.empty())
+	if ((tailX.empty() && tailY.empty()) || tailX.size() == 1)
 	{
 		switch (control.getDirection())
 		{
@@ -241,10 +256,6 @@ void Playground::incrementSnake()
 			break;
 		}
 	}
-	else if (tailX.size() == 1)
-	{
-		// TODO: Case the vectors have one element
-	}
 	else
 	{
 		Direction tailDir;
@@ -269,6 +280,10 @@ void Playground::incrementSnake()
 			{
 				tailDir = RIGHT;
 			}
+		}
+		else
+		{
+
 		}
 
 		switch (tailDir)
