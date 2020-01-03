@@ -78,7 +78,19 @@ void Playground::drawPlayground()
 			}
 			else
 			{
-				std::cout << " ";
+				bool printed = false;
+				for (int  k = 0; k < lengthTail; k++)
+				{
+					if (tailX.at(k) == j && tailY.at(k) == i)
+					{
+						std::cout << "o";
+						printed = true;
+					}
+				}
+				if (!printed)
+				{
+					std::cout << " ";
+				}
 			}
 
 			if (j == getWidth() - 1)
