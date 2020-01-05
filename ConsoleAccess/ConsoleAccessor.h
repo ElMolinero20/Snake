@@ -34,9 +34,10 @@ int ConsoleAccessor::showMainMenu()
 
 void ConsoleAccessor::showHighscore(std::vector<std::string> names, std::vector<int> scores)
 {
-	std::cout << "Name" << "\t" << "Score" << std::endl;
-	for (int i = 0; i < names.size() - 1; i++)
+	std::cout << "Name" << "\t\t" << "Score" << std::endl;
+	
+	for (int i = 0; i < names.size(); i++)
 	{
-		std::cout << names.at(i) << "\t" << scores.at(i) << std::endl;
+		std::cout << names.at(i) << "\t\t" << scores.at(i) << std::endl;
 	}
 }

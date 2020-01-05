@@ -1,43 +1,45 @@
 #pragma once
 
+#include <chrono>
 #include <random>
 #include <iostream>
 #include <thread>
-#include <chrono>
 #include <vector>
 #include "Control.h"
 #include "../Data/Highscore.h"
+#include <windows.h>
 
 class Playground
 {
-public:
-	Playground();
-	~Playground();
-	void drawPlayground();
-	int getWidth();
-	int getHeight();
-	void getNewFood();
-	void moveSnake();
-	void startGame();
-	bool checkForGameover();
-	void moveTail();
-	void incrementSnake();
-	std::vector<int> tailX;
-	std::vector<int> tailY;
+	public:
+		Playground();
+		~Playground();
+		void drawPlayground();
+		int getWidth();
+		int getHeight();
+		void getNewFood();
+		void moveSnake();
+		void startGame();
+		bool checkForGameover();
 
-private:
-	bool gameOver;
-	int width;
-	int height;
-	int headX;
-	int headY;
-	int foodX;
-	int foodY;
-	int score;
-	int lengthTail;
-	Control control;
-	std::string name;
-	Highscore* highscore;
+	private:
+		std::vector<int> tailX;
+		std::vector<int> tailY;
+		int width;
+		int height;
+		int headX;
+		int headY;
+		int oldHeadX;
+		int oldHeadY;
+		int foodX;
+		int foodY;
+		int score;
+		int stateX;
+		int stateY;
+		int stateTail;
+		Control control;
+		std::string name;
+		Highscore* highscore = new Highscore();
 };
 
 Playground::Playground()
@@ -48,6 +50,7 @@ Playground::Playground()
 
 Playground::~Playground()
 {
+	delete highscore;
 }
 
 void Playground::drawPlayground()
@@ -76,21 +79,28 @@ void Playground::drawPlayground()
 			{
 				std::cout << "N";
 			}
-			else
+			else if(!tailX.empty())
 			{
-				bool printed = false;
-				for (int  k = 0; k < lengthTail; k++)
+				stateTail = 0;
+
+				for(int k = 0; k < tailX.size(); k++)
 				{
-					if (tailX.at(k) == j && tailY.at(k) == i)
+					if(tailX[k] == j && tailY[k] == i)
 					{
 						std::cout << "o";
-						printed = true;
+						stateTail = 1;
+						break;
 					}
 				}
-				if (!printed)
+
+				if(stateTail == 0)
 				{
 					std::cout << " ";
 				}
+			}
+			else
+			{
+				std::cout << " ";
 			}
 
 			if (j == getWidth() - 1)
@@ -98,6 +108,7 @@ void Playground::drawPlayground()
 				std::cout << "#";
 			}
 		}
+
 		std::cout << std::endl;
 	}
 
@@ -129,63 +140,141 @@ void Playground::getNewFood()
 
 void Playground::moveSnake()
 {
-	int previousX = headX;
-	int previousY = headY;
-	int helperX;
-	int helperY;
-	for (int i = 1; i < lengthTail; i++)
-	{
-		helperX = tailX.at(i);
-		helperY = tailY.at(i);
-		tailX.at(i) = previousX;
-		tailY.at(i) = previousY;
-		previousX = helperX;
-		previousY = helperY;
-	}
-	// Move head of snake
+	oldHeadX = headX;
+	oldHeadY = headY;
+
 	switch (control.getDirection())
 	{
-	case UP:
-		headY--;
-		break;
-	case DOWN:
-		headY++;
-		break;
-	case RIGHT:
-		headX++;
-		break;
-	case LEFT:
-		headX--;
-		break;
-	default:
-		break;
+		case UP:
+			headY--;
+			break;
+		case DOWN:
+			headY++;
+			break;
+		case RIGHT:
+			headX++;
+			break;
+		case LEFT:
+			headX--;
+			break;
+		default:
+			break;
 	}
-	if (headX == foodX && headY == foodY)
+
+	if(headX == foodX && headY == foodY)
 	{
 		score++;
 		getNewFood();
-		lengthTail++;
-		// incrementSnake();
+
+		if(tailX.size() < 2)
+		{
+			if(control.getDirection() == UP)
+			{
+				tailX.push_back(headX);
+				tailY.push_back(headY++);
+			}
+
+			if(control.getDirection() == DOWN)
+			{
+				tailX.push_back(headX);
+				tailY.push_back(headY--);
+			}
+
+			if(control.getDirection() == LEFT)
+			{
+				tailX.push_back(headX++);
+				tailY.push_back(headY);
+			}
+
+			if(control.getDirection() == RIGHT)
+			{
+				tailX.push_back(headX--);
+				tailY.push_back(headY);
+			}
+		}
+		else
+		{
+			if(tailX[tailX.size()-1] == tailX[tailX.size()-2] && tailY[tailY.size()-1] < tailY[tailY.size()-2])
+			{
+				tailX.push_back(tailX[tailX.size()-1]);
+				tailY.push_back(tailY[tailY.size()-1]-1);
+			}
+
+			if(tailX[tailX.size()-1] == tailX[tailX.size()-2] && tailY[tailY.size()-1] > tailY[tailY.size()-2])
+			{
+				tailX.push_back(tailX[tailX.size()-1]);
+				tailY.push_back(tailY[tailY.size()-1]+1);
+			}
+
+			if(tailY[tailY.size()-1] == tailY[tailY.size()-2] && tailX[tailX.size()-1] < tailX[tailX.size()-2])
+			{
+				tailX.push_back(tailX[tailX.size()-1]-1);
+				tailY.push_back(tailY[tailY.size()-1]);
+			}
+
+			if(tailY[tailY.size()-1] == tailY[tailY.size()-2] && tailX[tailX.size()-1] > tailX[tailX.size()-2])
+			{
+				tailX.push_back(tailX[tailX.size()-1]+1);
+				tailY.push_back(tailY[tailY.size()-1]);
+			}
+		}
 	}
 
-	// Move tail of snake
-	/*if (!(tailX.empty() && tailY.empty()))
+	if(!tailX.empty())
 	{
-		moveTail();
-	}*/
+		for(int i = 0; i < tailX.size(); i++)
+		{
+			stateX = tailX[i];
+			tailX[i] = oldHeadX;
+			oldHeadX = stateX;
 
-	// Reduce the speed of the game by delaying the thread
-	std::this_thread::sleep_for(std::chrono::milliseconds(100));
+			stateY = tailY[i];
+			tailY[i] = oldHeadY;
+			oldHeadY = stateY;
+		}
+	}
+
+	Sleep(100);
+}
+
+bool Playground::checkForGameover()
+{
+	bool check;
+	int stateCheck = 0;
+
+	if (headX < 1 || headX >= width - 1 || headY < 1 || headY >= height - 1)
+	{
+		check = true;
+		stateCheck = 1;
+	}
+	else
+	{
+		for(int k = 0; k < tailX.size(); k++)
+		{
+			if(tailX[k] == headX && tailY[k] == headY)
+			{
+				/*check = true;
+				stateCheck = 1;*/
+			}
+		}
+	}
+
+	if(stateCheck == 0)
+	{
+		check = false;
+	}
+	
+	return check;
 }
 
 void Playground::startGame()
 {
-	gameOver = false;
-	control.setDirection(STOP);
+	control.setDirection(RIGHT);
 	headX = width / 2;
 	headY = height / 2;
 	getNewFood();
 	score = 0;
+
 	while (!checkForGameover())
 	{
 		drawPlayground();
@@ -201,125 +290,4 @@ void Playground::startGame()
 
 	highscore->ReadData();
 	highscore->WriteHighscore(name, score);
-}
-
-bool Playground::checkForGameover()
-{
-	if (headX < 0 || headX > width - 1 || headY < 0 || headY > height - 1)
-	{
-		return true;
-	}
-	// TODO: When snake bites itself -> gameover
-	return false;
-}
-
-void Playground::moveTail()
-{
-	for (int i = tailX.size() - 1; i >= 0; i--)
-	{
-		if (i == 0)
-		{
-			tailX.at(0) = headX;
-		}
-		else
-		{
-			tailX.at(i) = tailX.at(i - 1);
-		}
-	}
-
-	for (int i = tailY.size() - 1; i >= 0; i--)
-	{
-		if (i == 0)
-		{
-			tailY.at(0) = headY;
-		}
-		else
-		{
-			tailX.at(i) = tailX.at(i - 1);
-		}
-	}
-}
-
-void Playground::incrementSnake()
-{
-	if ((tailX.empty() && tailY.empty()) || tailX.size() == 1)
-	{
-		switch (control.getDirection())
-		{
-		case UP:
-			tailX.push_back(headX);
-			tailY.push_back(headY + 1);
-			break;
-		case DOWN:
-			tailX.push_back(headX);
-			tailY.push_back(headY - 1);
-			break;
-		case LEFT:
-			tailX.push_back(headX + 1);
-			tailY.push_back(headY);
-			break;
-		case RIGHT:
-			tailX.push_back(headX - 1);
-			tailY.push_back(headY);
-			break;
-		default:
-			system("cls");
-			std::cout << "An error ocurred" << std::endl;
-			break;
-		}
-	}
-	else
-	{
-		Direction tailDir;
-		if (tailX.at(tailX.size()) == tailX.at(tailX.size() - 1))
-		{
-			if (tailY.at(tailY.size()) > tailY.at(tailY.size() - 1))
-			{
-				tailDir = UP;
-			}
-			else if (tailY.at(tailY.size()) < tailY.at(tailY.size() - 1))
-			{
-				tailDir = DOWN;
-			}
-		}
-		else if (tailY.at(tailY.size()) == tailY.at(tailY.size() - 1))
-		{
-			if (tailX.at(tailX.size()) > tailX.at(tailX.size() - 1))
-			{
-				tailDir = LEFT;
-			}
-			else if (tailX.at(tailX.size()) < tailX.at(tailX.size() - 1))
-			{
-				tailDir = RIGHT;
-			}
-		}
-		else
-		{
-
-		}
-
-		switch (tailDir)
-		{
-		case UP:
-			tailX.push_back(tailX.at(tailX.size()));
-			tailY.push_back(tailY.at(tailY.size()) + 1);
-			break;
-		case DOWN:
-			tailX.push_back(tailX.at(tailX.size()));
-			tailY.push_back(tailY.at(tailY.size()) - 1);
-			break;
-		case RIGHT:
-			tailX.push_back(tailX.at(tailX.size()) - 1);
-			tailY.push_back(tailY.at(tailY.size()));
-			break;
-		case LEFT:
-			tailX.push_back(tailX.at(tailX.size()) + 1);
-			tailY.push_back(tailY.at(tailY.size()));
-			break;
-		default:
-			system("cls");
-			std::cout << "An error ocurred" << std::endl;
-			break;
-		}
-	}
 }
