@@ -239,13 +239,11 @@ void Playground::moveSnake()
 
 bool Playground::checkForGameover()
 {
-	bool check;
-	int stateCheck = 0;
+	bool check = false;
 
 	if (headX < 1 || headX >= width - 1 || headY < 1 || headY >= height - 1)
 	{
 		check = true;
-		stateCheck = 1;
 	}
 	else
 	{
@@ -253,15 +251,9 @@ bool Playground::checkForGameover()
 		{
 			if(tailX[k] == headX && tailY[k] == headY)
 			{
-				/*check = true;
-				stateCheck = 1;*/
+				check = true;
 			}
 		}
-	}
-
-	if(stateCheck == 0)
-	{
-		check = false;
 	}
 	
 	return check;
