@@ -9,26 +9,33 @@ int main()
 	Playground* playground = new Playground();
 	Highscore* highscore = new Highscore();
 
+	int stateMenu = 0;
+
 	//Switch-Case muss noch in einer Schleife gebaut werden damit das Hauptmenu immer angezeigt wird
 	//nachdem Gameover ist oder die Highscore-Tabelle angezeigt wurde und nur mit der Nummer 3 wird 
 	//dann das Spiel beendet!
 
-	switch (csAccessor->showMainMenu())
+	while(stateMenu != 3)
 	{
-	case 1:
-		playground->startGame();
-		break;
-	case 2:
-		highscore->ReadData();
-		csAccessor->showHighscore(highscore->names, highscore->scores);
-		break;
-	case 3:
-		system("exit");
-		break;
-	default:
-		std::cout << "Invalid Selection! Please select a corresponding number" << std::endl;
-		break;
+		stateMenu = csAccessor->showMainMenu();
+
+		switch (stateMenu)
+		{
+			case 1:
+				playground->startGame();
+				break;
+			case 2:
+				highscore->ReadData();
+				csAccessor->showHighscore(highscore->names, highscore->scores);
+				break;
+			case 3:
+				break;
+			default:
+				std::cout << "Invalid Selection! Please select a corresponding number!" << std::endl;
+				break;
+		}
 	}
+
 	delete csAccessor;
 	delete playground;
 	delete highscore;

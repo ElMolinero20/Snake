@@ -39,8 +39,7 @@ private:
 	int score;
 	int stateX;
 	int stateY;
-	int stateTail;
-	int stateBomb;
+	int stateBlank;
 	Control control;
 	std::string name;
 	Highscore* highscore = new Highscore();
@@ -60,7 +59,7 @@ Playground::~Playground()
 void Playground::drawPlayground()
 {
 	system("cls");
-	for (int i = 0; i < getWidth() + 2; i++)
+	for (int i = 0; i < getWidth(); i++)
 	{
 		std::cout << "#";
 	}
@@ -71,60 +70,55 @@ void Playground::drawPlayground()
 	{
 		for (int j = 0; j < getWidth(); j++)
 		{
+			stateBlank = 0;
+
 			if (j == 0)
 			{
 				std::cout << "#";
+				stateBlank = 1;
 			}
+
 			if (i == headY && j == headX)
 			{
 				std::cout << "O";
+				stateBlank = 1;
 			}
 			else if (j == foodX && i == foodY)
 			{
 				std::cout << "N";
+				stateBlank = 1;
 			}
-			else if (!tailX.empty())
+			else
 			{
-				stateTail = 0;
-
-				for (int k = 0; k < tailX.size(); k++)
-				{
-					if (tailX[k] == j && tailY[k] == i)
-					{
-						std::cout << "o";
-						stateTail = 1;
-						break;
-					}
-				}
-
-				if (stateTail == 0)
-				{
-					std::cout << " ";
-				}
-			}
-			else if (!(bombX.empty() && bombY.empty()))
-			{
-				stateBomb = 0;
-
 				for (int m = 0; m < bombX.size(); m++)
 				{
 					if (bombX.at(m) == i && bombY.at(m) == j)
 					{
 						std::cout << "B";
-						stateBomb = 1;
+						stateBlank = 1;
 						break;
 					}
 				}
-
-				if (stateBomb == 0)
+			}
+			
+			if (!tailX.empty())
+			{
+				for (int k = 0; k < tailX.size(); k++)
 				{
-					std::cout << " ";
+					if (tailX[k] == j && tailY[k] == i)
+					{
+						std::cout << "o";
+						stateBlank = 1;
+						break;
+					}
 				}
 			}
-			else
+
+			if(stateBlank == 0 && j != getWidth() - 1)
 			{
 				std::cout << " ";
 			}
+
 			if (j == getWidth() - 1)
 			{
 				std::cout << "#";
@@ -134,7 +128,7 @@ void Playground::drawPlayground()
 		std::cout << std::endl;
 	}
 
-	for (int i = 0; i < getWidth() + 2; i++)
+	for (int i = 0; i < getWidth(); i++)
 	{
 		std::cout << "#";
 	}
@@ -153,29 +147,25 @@ int Playground::getHeight()
 
 void Playground::getNewFood()
 {
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> dis(1, width - 1);
-	foodX = dis(gen);
+	unsigned rd = std::chrono::system_clock::now().time_since_epoch().count();
+	std::default_random_engine gen(rd);
+    std::uniform_int_distribution<> dis(1, width - 2);
+    foodX = dis(gen);
 	foodY = dis(gen);
 }
 
 void Playground::getNewBombs()
 {
-	for (int i = 0; i < 2; i++)
-	{
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> dis(1, width - 1);
-		bombX.push_back(dis(gen));
-	}
-	for (int i = 0; i < 2; i++)
-	{
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> dis(1, width - 1);
-		bombY.push_back(dis(gen));
-	}
+	bombX.clear();
+	bombY.clear();
+
+	unsigned rd = std::chrono::system_clock::now().time_since_epoch().count();
+	std::default_random_engine gen(rd);
+    std::uniform_int_distribution<> dis(1, width - 2);
+    bombX.push_back(dis(gen));
+	bombX.push_back(dis(gen));
+	bombY.push_back(dis(gen));
+	bombY.push_back(dis(gen));
 }
 
 void Playground::moveSnake()
@@ -282,7 +272,7 @@ bool Playground::checkForGameover()
 {
 	bool check = false;
 
-	if (headX < 1 || headX >= width - 1 || headY < 1 || headY >= height - 1)
+	if (headX < 1 || headX >= width - 1 || headY < 0 || headY >= height)
 	{
 		check = true;
 	}
@@ -296,7 +286,7 @@ bool Playground::checkForGameover()
 			}
 		}
 	}
-	for (int l = 0; l < bombX.size() - 1; l++)
+	for (int l = 0; l < bombX.size(); l++)
 	{
 		if (headX == bombX.at(l) && headY == bombY.at(l))
 		{
@@ -327,6 +317,8 @@ void Playground::startGame()
 	std::cout << "You lost the game" << std::endl << "Your Score: " << score << std::endl;
 	std::cout << "Please enter your name: ";
 	std::cin >> name;
+
+	std::cout << std::endl;
 
 	highscore->ReadData();
 	highscore->WriteHighscore(name, score);

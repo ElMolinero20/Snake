@@ -29,6 +29,8 @@ int ConsoleAccessor::showMainMenu()
 	std::cout << "2 --> Show Highscoretable" << std::endl;
 	std::cout << "3 --> Exit" << std::endl;
 	std::cin >> selection;
+
+	std::cout << std::endl;
 	return selection;
 }
 
@@ -40,4 +42,6 @@ void ConsoleAccessor::showHighscore(std::vector<std::string> names, std::vector<
 	{
 		std::cout << names.at(i) << "\t\t" << scores.at(i) << std::endl;
 	}
+
+	std::cout << std::endl;
 }
