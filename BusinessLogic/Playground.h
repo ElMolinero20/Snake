@@ -371,7 +371,7 @@ bool Playground::checkForGameover()
 
 void Playground::startGame()
 {
-	control.setDirection(RIGHT);
+	control.setDirection(STOP);
 	headX = width / 2;
 	headY = height / 2;
 	getNewFood();
