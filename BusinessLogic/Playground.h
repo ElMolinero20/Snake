@@ -39,6 +39,7 @@ private:
 	int score;
 	int stateX;
 	int stateY;
+	int stateNewFoodBomb;
 	int stateBlank;
 	Control control;
 	std::string name;
@@ -147,29 +148,95 @@ int Playground::getHeight()
 
 void Playground::getNewFood()
 {
-	unsigned rd = std::chrono::system_clock::now().time_since_epoch().count();
-	std::default_random_engine gen(rd);
-    std::uniform_int_distribution<> dis(1, width - 2);
-    foodX = dis(gen);
-	foodY = dis(gen);
+	int stateFood = 1;
+
+	while (stateFood == 1)
+	{
+		stateFood = 0;
+
+		unsigned rd = std::chrono::system_clock::now().time_since_epoch().count();
+		std::default_random_engine gen(rd);
+    	std::uniform_int_distribution<> dis(1, width - 2);
+    	foodX = dis(gen);
+		foodY = dis(gen);
+
+		if(foodX == headX && foodY == headY)
+		{
+			stateFood = 1;
+			continue;
+		}
+
+		if(!tailX.empty())
+		{
+			for(int i = 0; i < tailX.size(); i++)
+			{
+				if(foodX == tailX[i] && foodY == tailY[i])
+				{
+					stateFood = 1;
+					break;
+				}
+			}
+		}
+	}
 }
 
 void Playground::getNewBombs()
 {
-	bombX.clear();
-	bombY.clear();
+	int stateBomb = 1;
 
-	unsigned rd = std::chrono::system_clock::now().time_since_epoch().count();
-	std::default_random_engine gen(rd);
-    std::uniform_int_distribution<> dis(1, width - 2);
-    bombX.push_back(dis(gen));
-	bombX.push_back(dis(gen));
-	bombY.push_back(dis(gen));
-	bombY.push_back(dis(gen));
+	while(stateBomb == 1)
+	{
+		stateBomb = 0;
+
+		bombX.clear();
+		bombY.clear();
+
+		unsigned rd = std::chrono::system_clock::now().time_since_epoch().count();
+		std::default_random_engine gen(rd);
+    	std::uniform_int_distribution<> dis(1, width - 2);
+    	bombX.push_back(dis(gen));
+		bombX.push_back(dis(gen));
+		bombY.push_back(dis(gen));
+		bombY.push_back(dis(gen));
+
+		if(bombX[0] == bombX[1] && bombY[0] == bombY[1])
+		{
+			stateBomb = 1;
+			continue;
+		}
+
+		for(int i = 0; i < 2; i++)
+		{
+			if((bombX[i] == foodX && bombY[i] == foodY) || (bombX[i] == headX && bombY[i] == headY))
+			{
+				stateBomb = 1;
+				break;
+			}
+
+			if(!tailX.empty())
+			{
+				for(int k = 0; k < tailX.size(); k++)
+				{
+					if(bombX[i] == tailX[k] && bombY[i] == tailY[k])
+					{
+						stateBomb = 1;
+						break;
+					}
+				}
+
+				if(stateBomb == 1)
+				{
+					break;
+				}
+			}
+		}
+	}
 }
 
 void Playground::moveSnake()
 {
+	stateNewFoodBomb = 0;
+
 	oldHeadX = headX;
 	oldHeadY = headY;
 
@@ -194,8 +261,7 @@ void Playground::moveSnake()
 	if (headX == foodX && headY == foodY)
 	{
 		score++;
-		getNewFood();
-		getNewBombs();
+		stateNewFoodBomb = 1;
 
 		if (tailX.size() < 2)
 		{
@@ -263,6 +329,12 @@ void Playground::moveSnake()
 			tailY[i] = oldHeadY;
 			oldHeadY = stateY;
 		}
+	}
+
+	if(stateNewFoodBomb == 1)
+	{
+		getNewFood();
+		getNewBombs();
 	}
 
 	Sleep(100);
