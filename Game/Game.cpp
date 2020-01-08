@@ -11,10 +11,6 @@ int main()
 
 	int stateMenu = 0;
 
-	//Switch-Case muss noch in einer Schleife gebaut werden damit das Hauptmenu immer angezeigt wird
-	//nachdem Gameover ist oder die Highscore-Tabelle angezeigt wurde und nur mit der Nummer 3 wird 
-	//dann das Spiel beendet!
-
 	while(stateMenu != 3)
 	{
 		stateMenu = csAccessor->showMainMenu();

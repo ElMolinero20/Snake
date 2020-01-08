@@ -385,6 +385,9 @@ void Playground::startGame()
 		moveSnake();
 	}
 
+	tailY.clear();
+	tailX.clear();
+
 	system("cls");
 	std::cout << "You lost the game" << std::endl << "Your Score: " << score << std::endl;
 	std::cout << "Please enter your name: ";
