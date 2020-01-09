@@ -93,7 +93,7 @@ void Playground::drawPlayground()
 			{
 				for (int m = 0; m < bombX.size(); m++)
 				{
-					if (bombX.at(m) == i && bombY.at(m) == j)
+					if (bombX.at(m) == j && bombY.at(m) == i)
 					{
 						std::cout << "B";
 						stateBlank = 1;
@@ -375,7 +375,6 @@ bool Playground::checkForGameover()
 			check = true;
 		}
 	}
-
 	return check;
 }
 

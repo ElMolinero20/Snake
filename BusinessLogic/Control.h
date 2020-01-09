@@ -27,13 +27,10 @@ private:
 
 Control::Control()
 {
-	consoleAccessor = new ConsoleAccessor();
 }
 
 Control::~Control()
 {
-	consoleAccessor = nullptr;
-	delete consoleAccessor;
 }
 
 void Control::getKey()
@@ -55,6 +52,7 @@ void Control::getKey()
 			direction = RIGHT;
 			break;
 		case 'x':
+			system("cls");
 			consoleAccessor.showMainMenu();
 			break;
 		case 'esc':
