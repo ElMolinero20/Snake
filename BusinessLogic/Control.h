@@ -1,6 +1,7 @@
 #pragma once
 
 #include <conio.h>
+#include "../ConsoleAccess/ConsoleAccessor.h"
 
 enum Direction {
 	UP,
@@ -21,14 +22,18 @@ public:
 
 private:
 	Direction direction;
+	ConsoleAccessor consoleAccessor;
 };
 
 Control::Control()
 {
+	consoleAccessor = new ConsoleAccessor();
 }
 
 Control::~Control()
 {
+	consoleAccessor = nullptr;
+	delete consoleAccessor;
 }
 
 void Control::getKey()
@@ -50,9 +55,9 @@ void Control::getKey()
 			direction = RIGHT;
 			break;
 		case 'x':
-			//TODO: Go back to main menu
+			consoleAccessor.showMainMenu();
 			break;
-		case 'ESC':
+		case 'esc':
 			system("exit");
 			break;
 		default:
