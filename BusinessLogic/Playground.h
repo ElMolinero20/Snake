@@ -154,11 +154,15 @@ void Playground::getNewFood()
 	{
 		stateFood = 0;
 
-		unsigned rd = std::chrono::system_clock::now().time_since_epoch().count();
+		/*unsigned rd = std::chrono::system_clock::now().time_since_epoch().count();
 		std::default_random_engine gen(rd);
     	std::uniform_int_distribution<> dis(1, width - 2);
     	foodX = dis(gen);
-		foodY = dis(gen);
+		foodY = dis(gen);*/
+
+		srand(std::chrono::system_clock::now().time_since_epoch().count());
+		foodX = (rand() % 18) + 1;
+		foodY = (rand() % 18) + 1;
 
 		if(foodX == headX && foodY == headY)
 		{
@@ -191,13 +195,19 @@ void Playground::getNewBombs()
 		bombX.clear();
 		bombY.clear();
 
-		unsigned rd = std::chrono::system_clock::now().time_since_epoch().count();
+		/*unsigned rd = std::chrono::system_clock::now().time_since_epoch().count();
 		std::default_random_engine gen(rd);
     	std::uniform_int_distribution<> dis(1, width - 2);
     	bombX.push_back(dis(gen));
 		bombX.push_back(dis(gen));
 		bombY.push_back(dis(gen));
-		bombY.push_back(dis(gen));
+		bombY.push_back(dis(gen));*/
+
+		srand(std::chrono::system_clock::now().time_since_epoch().count());
+		bombX.push_back((rand() % 18) + 1);
+		bombX.push_back((rand() % 18) + 1);
+		bombY.push_back((rand() % 18) + 1);
+		bombY.push_back((rand() % 18) + 1);
 
 		if(bombX[0] == bombX[1] && bombY[0] == bombY[1])
 		{
