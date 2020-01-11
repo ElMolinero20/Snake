@@ -41,7 +41,9 @@ private:
 	int stateY;
 	int stateNewFoodBomb;
 	int stateBlank;
+	int stateGameover;
 	Control control;
+	Control oldDirection;
 	std::string name;
 	Highscore* highscore = new Highscore();
 };
@@ -250,7 +252,7 @@ void Playground::moveSnake()
 	oldHeadX = headX;
 	oldHeadY = headY;
 
-	switch (control.getDirection())
+	/*switch (control.getDirection())
 	{
 	case UP:
 		headY--;
@@ -266,6 +268,55 @@ void Playground::moveSnake()
 		break;
 	default:
 		break;
+	}*/
+
+	if(control.getDirection() == UP)
+	{
+		if(oldDirection.getDirection() == DOWN && !tailX.empty())
+		{
+			control.setDirection(oldDirection.getDirection());
+			headY++;
+		}
+		else
+		{
+			headY--;
+		}
+	}
+	else if(control.getDirection() == DOWN)
+	{
+		if(oldDirection.getDirection() == UP && !tailX.empty())
+		{
+			control.setDirection(oldDirection.getDirection());
+			headY--;
+		}
+		else
+		{
+			headY++;
+		}
+	}
+	else if(control.getDirection() == LEFT)
+	{
+		if(oldDirection.getDirection() == RIGHT && !tailX.empty())
+		{
+			control.setDirection(oldDirection.getDirection());
+			headX++;
+		}
+		else
+		{
+			headX--;
+		}
+	}
+	else if(control.getDirection() == RIGHT)
+	{
+		if(oldDirection.getDirection() == LEFT && !tailX.empty())
+		{
+			control.setDirection(oldDirection.getDirection());
+			headX--;
+		}
+		else
+		{
+			headX++;
+		}
 	}
 
 	if (headX == foodX && headY == foodY)
@@ -347,6 +398,8 @@ void Playground::moveSnake()
 		getNewBombs();
 	}
 
+	oldDirection.setDirection(control.getDirection());
+
 	Sleep(100);
 }
 
@@ -357,24 +410,32 @@ bool Playground::checkForGameover()
 	if (headX < 1 || headX >= width - 1 || headY < 0 || headY >= height)
 	{
 		check = true;
+		stateGameover = 1;
 	}
 	else
+	{
+		for (int l = 0; l < bombX.size(); l++)
+		{
+			if (headX == bombX.at(l) && headY == bombY.at(l))
+			{
+				check = true;
+				stateGameover = 2;
+			}
+		}
+	}
+
+	if(check == false)
 	{
 		for (int k = 0; k < tailX.size(); k++)
 		{
 			if (tailX[k] == headX && tailY[k] == headY)
 			{
 				check = true;
+				stateGameover = 3;
 			}
 		}
 	}
-	for (int l = 0; l < bombX.size(); l++)
-	{
-		if (headX == bombX.at(l) && headY == bombY.at(l))
-		{
-			check = true;
-		}
-	}
+	
 	return check;
 }
 
@@ -398,7 +459,24 @@ void Playground::startGame()
 	tailX.clear();
 
 	system("cls");
-	std::cout << "You lost the game" << std::endl << "Your Score: " << score << std::endl;
+
+	//std::cout << "You lost the game" << std::endl << "Your Score: " << score << std::endl;
+
+	if(stateGameover == 1)
+	{
+		std::cout << "GAME OVER!" << std::endl << "You hit the wall!" << std::endl << "Your Score: " << score << std::endl;
+	}
+
+	if(stateGameover == 2)
+	{
+		std::cout << "GAME OVER!" << std::endl << "You exploded!" << std::endl << "Your Score: " << score << std::endl;
+	}
+
+	if(stateGameover == 3)
+	{
+		std::cout << "GAME OVER!" << std::endl << "You have bitten yourself!" << std::endl << "Your Score: " << score << std::endl;
+	}
+
 	std::cout << "Please enter your name: ";
 	std::cin >> name;
 
