@@ -52,10 +52,17 @@ void Control::getKey()
 			direction = RIGHT;
 			break;
 		case 'x':
+			// pause the game
 			system("cls");
-			consoleAccessor.showMainMenu();
-			break;
+			consoleAccessor.showBreakMenu();
+			int selection = 0;
+			std::cin >> selection;
+			if (selection == 1)
+			{
+				
+			}
 		case 'esc':
+			// terminate the game
 			system("exit");
 			break;
 		default:

@@ -8,6 +8,7 @@ public:
 	ConsoleAccessor();
 	~ConsoleAccessor();
 	int showMainMenu();
+	int showBreakMenu();
 	void showHighscore(std::vector<std::string> names, std::vector<int> scores);
 private:
 
@@ -32,6 +33,14 @@ int ConsoleAccessor::showMainMenu()
 
 	std::cout << std::endl;
 	return selection;
+}
+
+int ConsoleAccessor::showBreakMenu()
+{
+	int selection = 0;
+	std::cout << "You paused the game" << std::endl;
+	std::cout << "Press 1 to return" << std::endl;
+	std::cout << "Press 2 to exit the game" << std::endl;
 }
 
 void ConsoleAccessor::showHighscore(std::vector<std::string> names, std::vector<int> scores)
