@@ -41,6 +41,7 @@ int ConsoleAccessor::showBreakMenu()
 	std::cout << "You paused the game" << std::endl;
 	std::cout << "Press 1 to return" << std::endl;
 	std::cout << "Press 2 to exit the game" << std::endl;
+	return 0;
 }
 
 void ConsoleAccessor::showHighscore(std::vector<std::string> names, std::vector<int> scores)

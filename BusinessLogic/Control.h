@@ -53,14 +53,7 @@ void Control::getKey()
 			break;
 		case 'x':
 			// pause the game
-			system("cls");
-			consoleAccessor.showBreakMenu();
-			int selection = 0;
-			std::cin >> selection;
-			if (selection == 1)
-			{
-				
-			}
+			
 		case 'esc':
 			// terminate the game
 			system("exit");
