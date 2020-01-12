@@ -270,6 +270,14 @@ void Playground::moveSnake()
 		break;
 	}*/
 
+	if (control.getDirection() == BREAK)
+	{
+		std::cout << "Press a key to return" << std::endl;
+		char selection;
+		std::cin >> selection;
+		startGame();
+	}
+
 	if(control.getDirection() == UP)
 	{
 		if(oldDirection.getDirection() == DOWN && !tailX.empty())
