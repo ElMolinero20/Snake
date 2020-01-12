@@ -17,6 +17,8 @@ Examination Task to complete "Programmieren II" at DHBW Stuttgart Campus Horb.
 - Load the highscore from the external highscore file
 - Exit the game
 
+<img src="Readme/Main menu.png" width="500">
+
 ## Controlling the game
 W -> Up
 A -> Left
