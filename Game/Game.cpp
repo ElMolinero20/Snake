@@ -25,6 +25,7 @@ int main()
 				csAccessor->showHighscore(highscore->names, highscore->scores);
 				break;
 			case 3:
+				system("exit");
 				break;
 			default:
 				std::cout << "Invalid Selection! Please select a corresponding number!" << std::endl;
