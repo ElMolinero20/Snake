@@ -61,7 +61,25 @@ Playground::~Playground()
 
 void Playground::drawPlayground()
 {
+	int stateLiveHighscore;
+	int stateDrawLiveHighscore = 0;
+	int stateCountScores = 0;
+
+	highscore->ReadData();
+	highscore->SaveOldScores();
+	highscore->WriteLiveScore(score);
+
+	if(highscore->scores.size() < 10)
+	{
+		stateLiveHighscore = highscore->scores.size();
+	}
+	else
+	{
+		stateLiveHighscore = 10;
+	}
+
 	system("cls");
+
 	for (int i = 0; i < getWidth(); i++)
 	{
 		std::cout << "#";
@@ -125,6 +143,23 @@ void Playground::drawPlayground()
 			if (j == getWidth() - 1)
 			{
 				std::cout << "#";
+
+				if(stateDrawLiveHighscore == 0)
+				{
+					std::cout << "\t\tLIVE-HIGHSCORE-TABLE";
+					stateDrawLiveHighscore++;
+				}
+				else if(stateDrawLiveHighscore == 1)
+				{
+					std::cout << "\t\tName" << "\t\t" << "Score";
+					stateDrawLiveHighscore++;
+				}
+				else if(stateLiveHighscore > 0)
+				{
+					std::cout << "\t\t" << highscore->names[stateCountScores] << "\t\t" << highscore->scores[stateCountScores];
+					stateCountScores++;
+					stateLiveHighscore--;
+				}
 			}
 		}
 
@@ -136,6 +171,8 @@ void Playground::drawPlayground()
 		std::cout << "#";
 	}
 	std::cout << std::endl;
+
+	highscore->DropLiveScore();
 }
 
 int Playground::getWidth()

@@ -13,8 +13,13 @@ public:
 	void Split(const std::string& s, char c, std::vector<std::string>& v);
 	void ReadData();
 	void WriteHighscore(std::string name, int score);
+	void SaveOldScores();
+	void DropLiveScore();
+	void WriteLiveScore(int score);
 	std::vector<std::string> names;
+	std::vector<std::string> oldNames;
 	std::vector<int> scores;
+	std::vector<int> oldScores;
 private:
 
 };
@@ -126,4 +131,66 @@ void Highscore::WriteHighscore(std::string name, int score)
 	}
 
 	highscore.close();
+}
+
+void Highscore::SaveOldScores()
+{
+	oldNames = names;
+	oldScores = scores;
+}
+
+void Highscore::DropLiveScore()
+{
+	names = oldNames;
+	scores = oldScores;
+}
+
+void Highscore::WriteLiveScore(int score)
+{
+	int scoreState;
+	int scoreState2;
+	std::string nameState;
+	std::string nameState2;
+	int scoresSize;
+
+	if (scores.empty() || scores[scores.size() - 1] > score)
+	{
+		scores.push_back(score);
+		names.push_back("LIVE");
+	}
+	else
+	{
+		for (int i = 0; i < scores.size(); i++)
+		{
+			if (scores[i] <= score)
+			{
+				scoreState = scores[i];
+				nameState = names[i];
+				scores[i] = score;
+				names[i] = "LIVE";
+
+				scoresSize = scores.size();
+
+				for (int j = i + 1; j <= scoresSize; j++)
+				{
+					if (j != scores.size())
+					{
+						scoreState2 = scores[j];
+						nameState2 = names[j];
+						scores[j] = scoreState;
+						names[j] = nameState;
+						scoreState = scoreState2;
+						nameState = nameState2;
+					}
+					else
+					{
+						scores.push_back(scoreState);
+						names.push_back(nameState);
+					}
+				}
+
+				break;
+			}
+		}
+	}
 }
