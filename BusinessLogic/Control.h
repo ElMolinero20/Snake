@@ -2,13 +2,16 @@
 
 #include <conio.h>
 #include "../ConsoleAccess/ConsoleAccessor.h"
+#include "Playground.h"
 
 enum Direction {
 	UP,
 	DOWN,
 	RIGHT,
 	LEFT,
-	STOP
+	STOP,
+	BREAK,
+	EXIT
 };
 
 class Control
@@ -51,12 +54,11 @@ void Control::getKey()
 		case 'd':
 			direction = RIGHT;
 			break;
-		case 'x':
-			system("cls");
-			consoleAccessor.showMainMenu();
+		case 'b':
+			direction = BREAK;
 			break;
-		case 'esc':
-			system("exit");
+		case 'x':
+			direction = EXIT;
 			break;
 		default:
 			break;

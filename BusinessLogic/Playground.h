@@ -19,7 +19,7 @@ public:
 	int getHeight();
 	void getNewFood();
 	void getNewBombs();
-	void moveSnake();
+	bool moveSnake();
 	void startGame();
 	bool checkForGameover();
 
@@ -245,8 +245,9 @@ void Playground::getNewBombs()
 	}
 }
 
-void Playground::moveSnake()
+bool Playground::moveSnake()
 {
+	bool quitGame = false;
 	stateNewFoodBomb = 0;
 
 	oldHeadX = headX;
@@ -269,6 +270,19 @@ void Playground::moveSnake()
 	default:
 		break;
 	}*/
+
+	if (control.getDirection() == BREAK)
+	{
+		std::cout << "Press a key to return" << std::endl;
+		char selection;
+		std::cin >> selection;
+		control.setDirection(oldDirection.getDirection());
+	}
+
+	if (control.getDirection() == EXIT)
+	{
+		quitGame = true;
+	}
 
 	if(control.getDirection() == UP)
 	{
@@ -401,6 +415,7 @@ void Playground::moveSnake()
 	oldDirection.setDirection(control.getDirection());
 
 	Sleep(100);
+	return quitGame;
 }
 
 bool Playground::checkForGameover()
@@ -452,7 +467,10 @@ void Playground::startGame()
 	{
 		drawPlayground();
 		control.getKey();
-		moveSnake();
+		if (moveSnake() == true)
+		{
+			break;
+		}
 	}
 
 	tailY.clear();
