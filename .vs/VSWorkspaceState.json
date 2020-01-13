@@ -4,8 +4,9 @@
     "\\BusinessLogic",
     "\\ConsoleAccess",
     "\\Data",
-    "\\Game"
+    "\\Game",
+    "\\Readme"
   ],
-  "SelectedNode": "\\Readme",
+  "SelectedNode": "\\README.md",
   "PreviewInSolutionExplorer": false
 }

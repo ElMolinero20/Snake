@@ -9,6 +9,8 @@ int main()
 	Playground* playground = new Playground();
 	Highscore* highscore = new Highscore();
 
+	system("color 06");
+
 	int stateMenu = 0;
 
 	while(stateMenu != 3)

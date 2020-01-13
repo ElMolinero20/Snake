@@ -20,10 +20,10 @@ Examination Task to complete "Programmieren II" at DHBW Stuttgart Campus Horb.
 <img src="Readme/Main menu.png" width="500">
 
 ## Controlling the game
-W -> Up
-A -> Left
-S -> Down
-D -> Right
++ W -> Up
++ A -> Left
++ S -> Down
++ D -> Right
 	
 - The food is shown as 'N'
 - The bombs are shown as 'B'. If you hit them the game will end
