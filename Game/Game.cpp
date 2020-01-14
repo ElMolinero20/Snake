@@ -9,6 +9,7 @@ int main()
 	Playground* playground = new Playground();
 	Highscore* highscore = new Highscore();
 
+	system("cls");
 	system("color 06");
 
 	int stateMenu = 0;
@@ -28,6 +29,9 @@ int main()
 			break;
 		case 3:
 			system("exit");
+			system("cls");
+			system("color 0F");
+
 			break;
 		default:
 			std::cout << "Invalid Selection! Please select a corresponding number!" << std::endl;

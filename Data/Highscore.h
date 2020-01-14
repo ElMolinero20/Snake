@@ -16,6 +16,7 @@ public:
 	void SaveOldScores();
 	void DropLiveScore();
 	void WriteLiveScore(int score);
+	int stateName;
 	std::vector<std::string> names;
 	std::vector<std::string> oldNames;
 	std::vector<int> scores;
@@ -168,6 +169,7 @@ void Highscore::WriteLiveScore(int score)
 				nameState = names[i];
 				scores[i] = score;
 				names[i] = "LIVE";
+				stateName = i;
 
 				scoresSize = scores.size();
 

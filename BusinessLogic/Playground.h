@@ -101,12 +101,16 @@ void Playground::drawPlayground()
 
 			if (i == headY && j == headX)
 			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 5);
 				std::cout << "O";
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
 				stateBlank = 1;
 			}
 			else if (j == foodX && i == foodY)
 			{
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 1);
 				std::cout << "N";
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
 				stateBlank = 1;
 			}
 			else
@@ -115,7 +119,9 @@ void Playground::drawPlayground()
 				{
 					if (bombX.at(m) == j && bombY.at(m) == i)
 					{
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
 						std::cout << "B";
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
 						stateBlank = 1;
 						break;
 					}
@@ -128,7 +134,9 @@ void Playground::drawPlayground()
 				{
 					if (tailX[k] == j && tailY[k] == i)
 					{
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 5);
 						std::cout << "o";
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
 						stateBlank = 1;
 						break;
 					}
@@ -156,7 +164,17 @@ void Playground::drawPlayground()
 				}
 				else if (stateLiveHighscore > 0)
 				{
-					std::cout << "\t\t" << highscore->names[stateCountScores] << "\t\t" << highscore->scores[stateCountScores];
+					if(highscore->stateName == stateCountScores && highscore->names[stateCountScores] == "LIVE")
+					{
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 36);
+						std::cout << "\t\t" << highscore->names[stateCountScores] << "\t\t" << highscore->scores[stateCountScores];
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 6);
+					}
+					else
+					{
+						std::cout << "\t\t" << highscore->names[stateCountScores] << "\t\t" << highscore->scores[stateCountScores];
+					}
+
 					stateCountScores++;
 					stateLiveHighscore--;
 				}
