@@ -47,11 +47,11 @@ int ConsoleAccessor::showBreakMenu()
 void ConsoleAccessor::showHighscore(std::vector<std::string> names, std::vector<int> scores)
 {
 	std::cout << "Name" << "\t\t" << "Score" << std::endl;
-	
+
 	for (int i = 0; i < names.size(); i++)
 	{
 		std::cout << names.at(i) << "\t\t" << scores.at(i) << std::endl;
 	}
-	
+
 	std::cout << std::endl;
 }

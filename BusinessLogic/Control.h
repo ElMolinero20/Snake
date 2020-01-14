@@ -47,7 +47,7 @@ void Control::getKey()
 			break;
 		case 'a':
 			direction = LEFT;
-			break;	
+			break;
 		case 's':
 			direction = DOWN;
 			break;
