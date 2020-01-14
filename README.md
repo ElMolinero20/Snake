@@ -28,7 +28,7 @@ Examination Task to complete "Programmieren II" at DHBW Stuttgart Campus Horb.
 - A -> Left
 - S -> Down
 - D -> Right
-	
+## Additional information
 - The food is shown as 'N'
 - The bombs are shown as 'B'. If you hit them the game will end
 - If you hit the wall the game will end
