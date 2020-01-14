@@ -69,7 +69,7 @@ void Playground::drawPlayground()
 	highscore->SaveOldScores();
 	highscore->WriteLiveScore(score);
 
-	if(highscore->scores.size() < 10)
+	if (highscore->scores.size() < 10)
 	{
 		stateLiveHighscore = highscore->scores.size();
 	}
@@ -121,7 +121,7 @@ void Playground::drawPlayground()
 					}
 				}
 			}
-			
+
 			if (!tailX.empty())
 			{
 				for (int k = 0; k < tailX.size(); k++)
@@ -135,7 +135,7 @@ void Playground::drawPlayground()
 				}
 			}
 
-			if(stateBlank == 0 && j != getWidth() - 1)
+			if (stateBlank == 0 && j != getWidth() - 1)
 			{
 				std::cout << " ";
 			}
@@ -144,17 +144,17 @@ void Playground::drawPlayground()
 			{
 				std::cout << "#";
 
-				if(stateDrawLiveHighscore == 0)
+				if (stateDrawLiveHighscore == 0)
 				{
 					std::cout << "\t\tLIVE-HIGHSCORE-TABLE";
 					stateDrawLiveHighscore++;
 				}
-				else if(stateDrawLiveHighscore == 1)
+				else if (stateDrawLiveHighscore == 1)
 				{
 					std::cout << "\t\tName" << "\t\t" << "Score";
 					stateDrawLiveHighscore++;
 				}
-				else if(stateLiveHighscore > 0)
+				else if (stateLiveHighscore > 0)
 				{
 					std::cout << "\t\t" << highscore->names[stateCountScores] << "\t\t" << highscore->scores[stateCountScores];
 					stateCountScores++;
@@ -193,27 +193,21 @@ void Playground::getNewFood()
 	{
 		stateFood = 0;
 
-		/*unsigned rd = std::chrono::system_clock::now().time_since_epoch().count();
-		std::default_random_engine gen(rd);
-    	std::uniform_int_distribution<> dis(1, width - 2);
-    	foodX = dis(gen);
-		foodY = dis(gen);*/
-
 		srand(std::chrono::system_clock::now().time_since_epoch().count());
 		foodX = (rand() % 18) + 1;
 		foodY = (rand() % 18) + 1;
 
-		if(foodX == headX && foodY == headY)
+		if (foodX == headX && foodY == headY)
 		{
 			stateFood = 1;
 			continue;
 		}
 
-		if(!tailX.empty())
+		if (!tailX.empty())
 		{
-			for(int i = 0; i < tailX.size(); i++)
+			for (int i = 0; i < tailX.size(); i++)
 			{
-				if(foodX == tailX[i] && foodY == tailY[i])
+				if (foodX == tailX[i] && foodY == tailY[i])
 				{
 					stateFood = 1;
 					break;
@@ -227,20 +221,12 @@ void Playground::getNewBombs()
 {
 	int stateBomb = 1;
 
-	while(stateBomb == 1)
+	while (stateBomb == 1)
 	{
 		stateBomb = 0;
 
 		bombX.clear();
 		bombY.clear();
-
-		/*unsigned rd = std::chrono::system_clock::now().time_since_epoch().count();
-		std::default_random_engine gen(rd);
-    	std::uniform_int_distribution<> dis(1, width - 2);
-    	bombX.push_back(dis(gen));
-		bombX.push_back(dis(gen));
-		bombY.push_back(dis(gen));
-		bombY.push_back(dis(gen));*/
 
 		srand(std::chrono::system_clock::now().time_since_epoch().count());
 		bombX.push_back((rand() % 18) + 1);
@@ -248,32 +234,32 @@ void Playground::getNewBombs()
 		bombY.push_back((rand() % 18) + 1);
 		bombY.push_back((rand() % 18) + 1);
 
-		if(bombX[0] == bombX[1] && bombY[0] == bombY[1])
+		if (bombX[0] == bombX[1] && bombY[0] == bombY[1])
 		{
 			stateBomb = 1;
 			continue;
 		}
 
-		for(int i = 0; i < 2; i++)
+		for (int i = 0; i < 2; i++)
 		{
-			if((bombX[i] == foodX && bombY[i] == foodY) || (bombX[i] == headX && bombY[i] == headY))
+			if ((bombX[i] == foodX && bombY[i] == foodY) || (bombX[i] == headX && bombY[i] == headY))
 			{
 				stateBomb = 1;
 				break;
 			}
 
-			if(!tailX.empty())
+			if (!tailX.empty())
 			{
-				for(int k = 0; k < tailX.size(); k++)
+				for (int k = 0; k < tailX.size(); k++)
 				{
-					if(bombX[i] == tailX[k] && bombY[i] == tailY[k])
+					if (bombX[i] == tailX[k] && bombY[i] == tailY[k])
 					{
 						stateBomb = 1;
 						break;
 					}
 				}
 
-				if(stateBomb == 1)
+				if (stateBomb == 1)
 				{
 					break;
 				}
@@ -290,24 +276,6 @@ bool Playground::moveSnake()
 	oldHeadX = headX;
 	oldHeadY = headY;
 
-	/*switch (control.getDirection())
-	{
-	case UP:
-		headY--;
-		break;
-	case DOWN:
-		headY++;
-		break;
-	case RIGHT:
-		headX++;
-		break;
-	case LEFT:
-		headX--;
-		break;
-	default:
-		break;
-	}*/
-
 	if (control.getDirection() == BREAK)
 	{
 		std::cout << "Press a key to return" << std::endl;
@@ -321,9 +289,9 @@ bool Playground::moveSnake()
 		quitGame = true;
 	}
 
-	if(control.getDirection() == UP)
+	if (control.getDirection() == UP)
 	{
-		if(oldDirection.getDirection() == DOWN && !tailX.empty())
+		if (oldDirection.getDirection() == DOWN && !tailX.empty())
 		{
 			control.setDirection(oldDirection.getDirection());
 			headY++;
@@ -333,9 +301,9 @@ bool Playground::moveSnake()
 			headY--;
 		}
 	}
-	else if(control.getDirection() == DOWN)
+	else if (control.getDirection() == DOWN)
 	{
-		if(oldDirection.getDirection() == UP && !tailX.empty())
+		if (oldDirection.getDirection() == UP && !tailX.empty())
 		{
 			control.setDirection(oldDirection.getDirection());
 			headY--;
@@ -345,9 +313,9 @@ bool Playground::moveSnake()
 			headY++;
 		}
 	}
-	else if(control.getDirection() == LEFT)
+	else if (control.getDirection() == LEFT)
 	{
-		if(oldDirection.getDirection() == RIGHT && !tailX.empty())
+		if (oldDirection.getDirection() == RIGHT && !tailX.empty())
 		{
 			control.setDirection(oldDirection.getDirection());
 			headX++;
@@ -357,9 +325,9 @@ bool Playground::moveSnake()
 			headX--;
 		}
 	}
-	else if(control.getDirection() == RIGHT)
+	else if (control.getDirection() == RIGHT)
 	{
-		if(oldDirection.getDirection() == LEFT && !tailX.empty())
+		if (oldDirection.getDirection() == LEFT && !tailX.empty())
 		{
 			control.setDirection(oldDirection.getDirection());
 			headX--;
@@ -443,7 +411,7 @@ bool Playground::moveSnake()
 		}
 	}
 
-	if(stateNewFoodBomb == 1)
+	if (stateNewFoodBomb == 1)
 	{
 		getNewFood();
 		getNewBombs();
@@ -476,7 +444,7 @@ bool Playground::checkForGameover()
 		}
 	}
 
-	if(check == false)
+	if (check == false)
 	{
 		for (int k = 0; k < tailX.size(); k++)
 		{
@@ -487,7 +455,7 @@ bool Playground::checkForGameover()
 			}
 		}
 	}
-	
+
 	return check;
 }
 
@@ -515,19 +483,17 @@ void Playground::startGame()
 
 	system("cls");
 
-	//std::cout << "You lost the game" << std::endl << "Your Score: " << score << std::endl;
-
-	if(stateGameover == 1)
+	if (stateGameover == 1)
 	{
 		std::cout << "GAME OVER!" << std::endl << "You hit the wall!" << std::endl << "Your Score: " << score << std::endl;
 	}
 
-	if(stateGameover == 2)
+	if (stateGameover == 2)
 	{
 		std::cout << "GAME OVER!" << std::endl << "You exploded!" << std::endl << "Your Score: " << score << std::endl;
 	}
 
-	if(stateGameover == 3)
+	if (stateGameover == 3)
 	{
 		std::cout << "GAME OVER!" << std::endl << "You have bitten yourself!" << std::endl << "Your Score: " << score << std::endl;
 	}
