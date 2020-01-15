@@ -6,7 +6,7 @@
 Examination Task to complete "Programmieren II" at DHBW Stuttgart Campus Horb.
 # Developers
 - Jonas Schwarz
-- Marcel Müller
+- Marcel MÃ¼ller
 # Range of functions
 - Logic of the snake game is fully implemented
 - Highscore can be saved in an external file
@@ -21,13 +21,13 @@ Examination Task to complete "Programmieren II" at DHBW Stuttgart Campus Horb.
 - Load the highscore from the external highscore file
 - Exit the game
 
-<img src="Readme/Main menu.png" width="500">
-
 ## Controlling the game
 - W -> Up
 - A -> Left
 - S -> Down
 - D -> Right
+- B -> Break
+- X -> Exit
 ## Additional information
 - The food is shown as 'N'
 - The bombs are shown as 'B'. If you hit them the game will end
